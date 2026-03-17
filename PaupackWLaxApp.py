@@ -142,6 +142,14 @@ with col2:
 # -----------------------------------------------------------------------------
 # NAVIGATION BAR
 # -----------------------------------------------------------------------------
+# --- GOOGLE FORM LINKS (authenticated users only, shown above nav bar) ---
+if st.session_state.is_authenticated:
+    col1, col2 = st.columns(2)
+    with col1:
+        st.link_button("📋 Open Player Data Google Form", st.secrets["FORM_PLAYER_DATA"], use_container_width=True)
+    with col2:
+        st.link_button("📋 Open Team Data Google Form", st.secrets["FORM_TEAM_DATA"], use_container_width=True)
+
 PAGES = ["Team Stats", "Player Stats", "Specialist", "Box Stats"]
 
 def nav_bar():
@@ -284,22 +292,6 @@ def upload_screen():
             st.rerun()
         except Exception as e:
             st.error(f"Could not load test data.\n\nError: {e}")
-
-    # --- GOOGLE FORM LINKS (only shown to authenticated users) ---
-    # These are intentionally hidden from test-data viewers.
-    # Form URLs live in secrets so they don't appear in source code.
-    if st.session_state.is_authenticated:
-        st.divider()
-        st.subheader("📋 Data Entry Forms")
-        col1, col2 = st.columns(2)
-        with col1:
-            st.subheader("FactTable / DimPlayers")
-            st.caption("Submit player-level game data")
-            st.link_button("Open Player Data Google Form", st.secrets["FORM_PLAYER_DATA"])
-        with col2:
-            st.subheader("DimSchedule")
-            st.caption("Submit team-level game data")
-            st.link_button("Open Team Data Google Form", st.secrets["FORM_TEAM_DATA"])
 
 # =============================================================================
 # PAGE 1 — TEAM STATS
