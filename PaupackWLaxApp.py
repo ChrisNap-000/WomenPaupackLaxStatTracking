@@ -928,10 +928,12 @@ def page_specialist(fact, schedule, players):
     df = get_merged(fact, players, schedule)
 
     # Only show Goalie and Midfielder options in the player dropdown
-    # Include if the word Goalie or Midfield appears anywhere in the Position string to catch variations like "Goalie/Mid" or "Midfield/Attack".
+    # CHANGED: Replaced .isin(spec_positions) with .str.contains() so that
+    # hybrid positions like "Midfield/Defense" are captured, not just exact matches.
+    # case=False makes it case-insensitive, na=False safely ignores blank position values.
     spec_mask    = players["Position"].str.contains("Goalie|Midfield", case=False, na=False)
     spec_players = players[spec_mask]["PlayerName"].tolist()
-    opponents    = ["All"] + sorted(schedule["OpponentName"].unique().tolist())
+    opponents      = ["All"] + sorted(schedule["OpponentName"].unique().tolist())
 
     # --- FILTERS ---
     st.subheader("Filters")
@@ -955,7 +957,10 @@ def page_specialist(fact, schedule, players):
 
     df_f = df[
         df["Date"].isin(sched_f["Date"]) &
-        df["Position"].isin(spec_positions)
+        # CHANGED: Replaced .isin(spec_positions) with .str.contains() to match
+        # the same logic used in the dropdown above — catches any position value
+        # that contains "Goalie" or "Midfield" rather than requiring an exact match.
+        df["Position"].str.contains("Goalie|Midfield", case=False, na=False)
     ]
     if sel_player != "All":
         df_f = df_f[df_f["PlayerName"] == sel_player]
