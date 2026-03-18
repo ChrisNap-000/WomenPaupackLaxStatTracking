@@ -1187,7 +1187,7 @@ def page_box_stats(fact, schedule, players):
     # from the data (e.g. "Midfield/Defense") into the dropdown, which caused
     # comparison errors. Now the dropdown shows clean labels and str.contains()
     # matches any position value that contains the selected keyword.
-    positions = ["All", "Attack", "Midfield", "Defense", "Goalie"]
+    positions = ["All", "Attack", "Midfield", "Defense", "Goalie", "Undefined"]
 
     sel_opp  = fcol1.selectbox("Opponent", opponents, key="bs_opp")
     sel_pos  = fcol2.selectbox("Position", positions, key="bs_pos")
