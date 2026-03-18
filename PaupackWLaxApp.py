@@ -928,9 +928,10 @@ def page_specialist(fact, schedule, players):
     df = get_merged(fact, players, schedule)
 
     # Only show Goalie and Midfielder options in the player dropdown
-    spec_positions = ["Midfield", "Goalie"]
-    spec_players   = players[players["Position"].isin(spec_positions)]["PlayerName"].tolist()
-    opponents      = ["All"] + sorted(schedule["OpponentName"].unique().tolist())
+    # Include if the word Goalie or Midfield appears anywhere in the Position string to catch variations like "Goalie/Mid" or "Midfield/Attack".
+    spec_mask    = players["Position"].str.contains("Goalie|Midfield", case=False, na=False)
+    spec_players = players[spec_mask]["PlayerName"].tolist()
+    opponents    = ["All"] + sorted(schedule["OpponentName"].unique().tolist())
 
     # --- FILTERS ---
     st.subheader("Filters")
