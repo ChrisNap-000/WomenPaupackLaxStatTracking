@@ -1181,7 +1181,13 @@ def page_box_stats(fact, schedule, players):
     # Top row: opponent, position, and name search
     fcol1, fcol2, fcol3 = st.columns(3)
     opponents = ["All"] + sorted(schedule["OpponentName"].unique().tolist())
-    positions = ["All"] + sorted(players["Position"].unique().tolist())
+
+    # CHANGED: Replaced sorted(players["Position"].unique().tolist()) with a
+    # fixed list of clean position keywords. The old approach pulled raw values
+    # from the data (e.g. "Midfield/Defense") into the dropdown, which caused
+    # comparison errors. Now the dropdown shows clean labels and str.contains()
+    # matches any position value that contains the selected keyword.
+    positions = ["All", "Attack", "Midfield", "Defense", "Goalie"]
 
     sel_opp  = fcol1.selectbox("Opponent", opponents, key="bs_opp")
     sel_pos  = fcol2.selectbox("Position", positions, key="bs_pos")
@@ -1197,8 +1203,11 @@ def page_box_stats(fact, schedule, players):
         sched_f = sched_f[sched_f["OpponentName"] == sel_opp]
 
     df_f = df[df["Date"].isin(sched_f["Date"])]
-    if sel_pos  != "All":
-        df_f = df_f[df_f["Position"] == sel_pos]
+    if sel_pos != "All":
+        # CHANGED: Replaced == sel_pos with str.contains() so that hybrid
+        # position values like "Midfield/Defense" match when "Midfield" or
+        # "Defense" is selected, rather than requiring an exact string match.
+        df_f = df_f[df_f["Position"].str.contains(sel_pos, case=False, na=False)]
     if sel_name:
         # str.contains() does a partial, case-insensitive match
         df_f = df_f[df_f["PlayerName"].str.contains(sel_name, case=False, na=False)]
