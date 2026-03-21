@@ -9,7 +9,7 @@
 import plotly.graph_objects as go
 import streamlit as st
 
-from utils.config import DARK, MUTED, PURPLE, PURPLE_D, PURPLE_L, TEXT, apply_layout
+from utils.config import DARK, MUTED, PURPLE, PURPLE_D, TEXT, apply_layout
 from utils.data import get_merged
 from utils.ui import date_hierarchy_filter, show_kpi
 
@@ -315,7 +315,7 @@ class SpecialistPage:
             labels=["Controls<br>Won", "Controls<br>Lost"],
             values=[draw_ctrl, draws_lost],
             hole=0.55,
-            marker=dict(colors=[PURPLE_L, DARK]),
+            marker=dict(colors=[PURPLE, DARK]),
             textinfo="label+percent",
             textfont=dict(color=TEXT),
         ))
