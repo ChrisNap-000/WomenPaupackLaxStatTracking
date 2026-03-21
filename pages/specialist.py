@@ -226,7 +226,7 @@ class SpecialistPage:
             fig_sv.add_trace(go.Scatter(
                 x=sg["Label"], y=sg["SavePct"],
                 mode="lines+markers", fill="tozeroy",
-                line=dict(color=PURPLE_L, width=2.5),
+                line=dict(color=PURPLE, width=2.5),
                 fillcolor="rgba(139, 47, 201, 0.20)",
                 marker=dict(size=9, color=sg["MarkerColor"])
             ))
