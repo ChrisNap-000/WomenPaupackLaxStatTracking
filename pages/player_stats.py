@@ -375,5 +375,5 @@ class PlayerStatsPage:
 # Called by app.py — keeps the call signature identical to the original.
 # -----------------------------------------------------------------------------
 def page_player_stats(fact, schedule, players):
-    """Entry point called by app.py to render the Player Stats page."""
+    """Entry point called by PaupackWLaxApp.py to render the Player Stats page."""
     PlayerStatsPage(fact, schedule, players).render()

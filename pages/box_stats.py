@@ -209,5 +209,5 @@ class BoxStatsPage:
 # Called by app.py — keeps the call signature identical to the original.
 # -----------------------------------------------------------------------------
 def page_box_stats(fact, schedule, players):
-    """Entry point called by app.py to render the Box Stats page."""
+    """Entry point called by PaupackWLaxApp.py to render the Box Stats page."""
     BoxStatsPage(fact, schedule, players).render()
