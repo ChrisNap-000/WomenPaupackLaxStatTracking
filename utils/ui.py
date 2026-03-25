@@ -64,7 +64,8 @@ def date_hierarchy_filter(schedule, key_prefix):
     years = ["All"] + sorted(schedule["Date"].dt.year.unique().tolist(), reverse=True)
     col1, col2, col3 = st.columns(3)
 
-    sel_year = col1.selectbox("Year", years, index=1, key=f"{key_prefix}_year")
+    default_year_index = 1 if len(years) > 1 else 0
+    sel_year = col1.selectbox("Year", years, index=default_year_index, key=f"{key_prefix}_year")
 
     sched_y = schedule.copy()
     if sel_year != "All":
